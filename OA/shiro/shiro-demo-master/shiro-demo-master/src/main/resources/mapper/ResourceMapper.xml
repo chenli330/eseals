@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.ResourceMapper">
+	<resultMap id="BaseResultMap" type="cn.pojo.Resource">
+		<id column="reId" property="reId" />
+		<result column="name" property="name"/>
+		<result column="type" property="type"/>
+		<result column="url" property="url"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="parent_ids" property="parentIds"/>
+		<result column="permission" property="permission"/>
+		<result column="available" property="available"/>
+	</resultMap>
+	<select id="findResourcesByRoleId" resultMap="BaseResultMap">
+		select resource.*
+		from resource where resource.reId in (
+		select role_resource.resource_id
+		from role_resource where
+		role_resource.role_id = #{id}
+		)
+	</select>
+
+	<select id="findAllResource" resultMap="BaseResultMap">
+		select * from resource
+	</select>
+</mapper>

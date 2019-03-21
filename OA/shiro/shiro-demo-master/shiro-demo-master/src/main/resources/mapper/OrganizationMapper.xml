@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.OrganizationMapper">
+	<resultMap id="BaseResultMap" type="cn.pojo.Organization">
+		<constructor>
+			<idArg column="oId" javaType="java.lang.Long" jdbcType="BIGINT" />
+			<arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="parentid" javaType="java.lang.Long" jdbcType="BIGINT" />
+			<arg column="parentids" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="available" javaType="java.lang.Boolean" jdbcType="BIT" />
+		</constructor>
+	</resultMap>
+
+	<select id="getAllOrgannization" resultMap="BaseResultMap">
+		select * from
+		organization
+	</select>
+
+	<select id="getByParentid" resultMap="BaseResultMap">
+		select * from
+		organization
+		where organization.parentid=#{pid}
+	</select>
+
+	<select id="getOrganizationById" resultMap="BaseResultMap">
+		select * from
+		organization
+		where organization.oId=#{id}
+	</select>
+
+	<update id="updateOrganization">
+		update organization
+		<set>
+			<if test="name != null">
+				organization.name=#{name},
+			</if>
+			<if test="parentids != null">
+				organization.parentids=#{parentids},
+			</if>
+			<if test="available != null">
+				organization.available=#{available},
+			</if>
+			<if test="parentid != null">
+				organization.parentid=#{parentid},
+			</if>
+		</set>
+		where organization.oId=#{oId}
+	</update>
+
+	<delete id="deleteById">
+		delete from organization where oId = #{id}
+	</delete>
+
+	<select id="findByParentid" resultMap="BaseResultMap">
+		select * from organization
+		where organization.parentid=#{parentid}
+	</select>
+
+	<insert id="addOrganization">
+		insert into
+		organization(oId,name,parentid,parentids,available)
+		values(#{oId},#{name},#{parentid},#{parentids},#{available})
+	</insert>
+</mapper>

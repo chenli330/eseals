@@ -1,0 +1,57 @@
+.west {
+	padding: 15px;
+	width: 200px;
+}
+
+.gongsi {
+	width: 200px;
+}
+
+.ztreediv {
+	border: 1px solid red;
+}
+
+.userTable td {
+	width: 150px;
+	text-align: center;
+}
+
+.allIframe {
+	border: none;
+}
+
+.showDetail {
+	border: 1px solid red;
+	width: 50%;
+	height: 83%;
+	position: absolute;
+	top: 3%;
+	left: 21%;
+	display: none;
+}
+
+.moveZtree {
+	height: 65% !important;
+	position: relative !important;
+	top: 0%;
+	left: 13.5%;
+	margin-top: -2px !important;
+	position: relative;
+}
+
+#orgaTree {
+	/* position: absolute;
+	z-index: 9999; */
+}
+
+.backIcon {
+	width: 60px;
+	height: 25px;
+	background:
+		url('../../static/jquery-easyui-1.5.5.3/themes/icons/back.png')
+		no-repeat #00bfff;
+	background-position: 44% 1% !important;
+	border-radius: 5px;
+	background-size: 59% 92%;
+	float: left;
+}

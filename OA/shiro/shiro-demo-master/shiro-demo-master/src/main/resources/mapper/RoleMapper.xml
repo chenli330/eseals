@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.RoleMapper">
+	<resultMap id="BaseResultMap" type="cn.pojo.Role">
+		<id column="rId" property="rId" />
+		<result column="role" property="role" />
+		<result column="description" property="description" />
+		<result column="resourceIds" property="resourceIds" />
+		<result column="available" property="available" />
+		<collection property="resourceList" ofType="cn.pojo.Resource"
+			javaType="java.util.List">
+			<id column="reId" property="reId" />
+			<result column="name" property="name" />
+			<result column="type" property="type" />
+			<result column="url" property="url" />
+			<result column="parentId" property="parentId" />
+			<result column="parentIds" property="parentIds" />
+			<result column="permission" property="permission" />
+			<result column="available" property="available" />
+		</collection>
+	</resultMap>
+
+	<select id="findRoleByUsername" resultMap="BaseResultMap">
+		select * from role
+		where role.rId in (select user_role.role_id from user_role
+		where
+		user_role.user_id in (
+		select user.id from user where
+		user.username=#{username}
+		))
+	</select>
+
+	<select id="findAllRole" resultMap="BaseResultMap">
+		select * from role
+	</select>
+
+	<select id="findAllRoleWithResource" resultMap="BaseResultMap">
+		select * from
+		role,role_resource,resource
+		where role.rId=role_resource.role_id
+		and
+		role_resource.resource_id=resource.reId
+	</select>
+
+	<insert id="addRole">
+		<selectKey resultType="java.lang.Long" order="AFTER"
+			keyProperty="rId">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into
+		role(role,description,resource_ids,available)
+		value(#{role},#{description},#{resourceIds},#{available})
+	</insert>
+
+	<select id="findByRid" resultMap="BaseResultMap">
+		select * from
+		role,role_resource,resource
+		where role.rId=role_resource.role_id
+		and
+		role_resource.resource_id=resource.reId
+		and role.rId=#{rId}
+	</select>
+
+	<update id="updateRole">
+		update role
+		<set>
+			<if test="role != null">
+				role = #{role},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+			<if test="description != null">
+				available=#{available},
+			</if>
+		</set>
+		where rId = #{rId}
+	</update>
+
+	<delete id="deleteRole">
+		delete from role
+		where rId = #{rId}
+	</delete>
+</mapper>
